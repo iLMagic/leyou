@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+<mapper namespace="com.example.manage.mapper.CategoryMapper">
+    
+    <resultMap id="Category" type="com.example.manage.domain.Category">
+        <result property="id" column="id"></result>
+        <result property="parentId" column="parent_id"></result>
+        <result property="whetherParent" column="is_parent"></result>
+        <result property="name" column="name"></result>
+        <result property="sort" column="sort"></result>
+    </resultMap>
+    
+    <select id="getCategoryByPid" resultMap="Category">
+        select * from tb_category where parent_id = #{pid} ORDER BY sort;
+    </select>
+    
+    <select id="hasExistSubCategoryByPid" resultType="Boolean">
+        SELECT IFNULL((SELECT 'Y' from tb_category where parent_id = #{pid} limit 1),'N');
+    </select>
+    
+</mapper>
